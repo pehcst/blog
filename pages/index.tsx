@@ -10,8 +10,10 @@ import {
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Header from '../components/Header'
+import ScrollContainer from 'react-indiana-drag-scroll'
 
 const Home: NextPage = () => {
+  const numbers = new Array(30).fill(1).map((_, index) => index + 1)
   return (
     <>
       <Header />
@@ -71,6 +73,22 @@ const Home: NextPage = () => {
         </Box>
         <Box position={'absolute'} right="0" h="100vh" bg="#1F324E" w="30%" />
       </Stack>
+      <Box h="100vh" w="100%">
+        <Heading color={'white'}>
+          {'<Portifolio />'}
+          <Flex w="100%">
+            <ScrollContainer horizontal className="container">
+              <Flex border={'1px solid green'} p="3">
+                {numbers.map((el) => (
+                  <Box bg={'red'} p="5" mr="5" key={el} minW={'300px'} h="400px">
+                    {el}
+                  </Box>
+                ))}
+              </Flex>
+            </ScrollContainer>
+          </Flex>
+        </Heading>
+      </Box>
     </>
   )
 }
