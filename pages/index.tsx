@@ -7,6 +7,8 @@ import {
   Button,
   Flex,
   VStack,
+  useColorModeValue,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Header from '../components/Header'
@@ -73,21 +75,104 @@ const Home: NextPage = () => {
         </Box>
         <Box position={'absolute'} right="0" h="100vh" bg="#1F324E" w="30%" />
       </Stack>
-      <Box h="100vh" w="100%">
-        <Heading color={'white'}>
-          {'<Portifolio />'}
-          <Flex w="100%">
-            <ScrollContainer horizontal className="container">
-              <Flex border={'1px solid green'} p="3">
-                {numbers.map((el) => (
-                  <Box bg={'red'} p="5" mr="5" key={el} minW={'300px'} h="400px">
-                    {el}
-                  </Box>
-                ))}
-              </Flex>
-            </ScrollContainer>
-          </Flex>
+      <Box h="auto" w="100%">
+        <Heading
+          textAlign={'right'}
+          pr="10"
+          mt="10"
+          mb="10"
+          fontSize={'3rem'}
+          opacity={'0.2'}
+          color={useColorModeValue('#181818', '#fff')}
+        >
+          {'<Projetos />'}
         </Heading>
+        <Flex position={'relative'} w="100%" alignItems={'center'}>
+          <Box zIndex={-10} position={'absolute'} w="100%" h="5px" bg={'#5B9EFF'}></Box>
+          <ScrollContainer horizontal className="container">
+            <Flex p="3">
+              {numbers.map((el) => (
+                <Box
+                  bg={useColorModeValue('white', '#181818')}
+                  shadow="md"
+                  borderRadius={10}
+                  transition={'all 0.3s'}
+                  cursor={'pointer'}
+                  _hover={{
+                    opacity: 1,
+                    color: useColorModeValue('#00398D', '#5B9EFF'),
+                  }}
+                  p="5"
+                  mr="10"
+                  key={el}
+                  minW={'300px'}
+                  h="400px"
+                >
+                  {el}
+                </Box>
+              ))}
+            </Flex>
+          </ScrollContainer>
+        </Flex>
+        <Heading
+          textAlign={'right'}
+          pr="10"
+          mt="10"
+          mb="10"
+          fontSize={'3rem'}
+          opacity={'0.2'}
+          color={useColorModeValue('#181818', '#fff')}
+        >
+          {'<Blog />'}
+        </Heading>
+        <Text pl="10">Últimos posts</Text>
+        <SimpleGrid columns={[1, 2]} p="10" spacing={10}>
+          {numbers.map((el) => (
+            <Flex
+              bg={useColorModeValue('white', '#181818')}
+              transition={'all 0.3s'}
+              cursor={'pointer'}
+              opacity={'0.7'}
+              _hover={{
+                opacity: 1,
+                color: useColorModeValue('#00398D', '#5B9EFF'),
+              }}
+              shadow={'md'}
+              borderRadius={10}
+              key={el}
+              h="250px"
+            >
+              <Box w="30%">
+                <Image
+                  borderTopLeftRadius={10}
+                  borderBottomLeftRadius={10}
+                  w="100%"
+                  h="100%"
+                  src={
+                    'https://images.unsplash.com/photo-1619117084637-a83c09c6ab5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=741&q=80'
+                  }
+                  alt={'logo'}
+                />
+              </Box>
+              <Box w="70%" h="100%" p="5">
+                <Heading>{el}</Heading>
+                <Text noOfLines={5} mt="5">
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Vitae exercitationem doloremque eum ab nulla quod numquam
+                  facere asperiores optio necessitatibus, non minus amet quidem
+                  reprehenderit sunt eius pariatur. Amet, blanditiis!
+                </Text>
+                <Text mt="5" textAlign={'right'}>
+                  {new Date().toLocaleDateString('pt-BR', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </Text>
+              </Box>
+            </Flex>
+          ))}
+        </SimpleGrid>
       </Box>
     </>
   )
