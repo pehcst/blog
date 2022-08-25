@@ -88,7 +88,13 @@ const Home: NextPage = () => {
           {'<Projetos />'}
         </Heading>
         <Flex position={'relative'} w="100%" alignItems={'center'}>
-          <Box zIndex={-10} position={'absolute'} w="100%" h="5px" bg={'#5B9EFF'}></Box>
+          <Box
+            zIndex={-10}
+            position={'absolute'}
+            w="100%"
+            h="5px"
+            bg={'#5B9EFF'}
+          ></Box>
           <ScrollContainer horizontal className="container">
             <Flex p="3">
               {numbers.map((el) => (
@@ -125,8 +131,8 @@ const Home: NextPage = () => {
         >
           {'<Blog />'}
         </Heading>
-        <Text pl="10">Últimos posts</Text>
-        <SimpleGrid columns={[1, 2]} p="10" spacing={10}>
+        <Text p={[1, 10]}>Últimos posts</Text>
+        <SimpleGrid columns={[1, 2]} p={[1, 10]} spacing={10}>
           {numbers.map((el) => (
             <Flex
               bg={useColorModeValue('white', '#181818')}
@@ -140,7 +146,7 @@ const Home: NextPage = () => {
               shadow={'md'}
               borderRadius={10}
               key={el}
-              h="250px"
+              h={['150px', '250px']}
             >
               <Box w="30%">
                 <Image
@@ -154,15 +160,15 @@ const Home: NextPage = () => {
                   alt={'logo'}
                 />
               </Box>
-              <Box w="70%" h="100%" p="5">
-                <Heading>{el}</Heading>
-                <Text noOfLines={5} mt="5">
+              <Box w="70%" h="100%" p={[1, 5]}>
+                <Heading fontSize={['1.5rem', '2rem']}>{el}</Heading>
+                <Text noOfLines={[3, 5]} mt={[0, 5]}>
                   Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                   Vitae exercitationem doloremque eum ab nulla quod numquam
                   facere asperiores optio necessitatibus, non minus amet quidem
                   reprehenderit sunt eius pariatur. Amet, blanditiis!
                 </Text>
-                <Text mt="5" textAlign={'right'}>
+                <Text mt={[3, 5]} textAlign={'right'}>
                   {new Date().toLocaleDateString('pt-BR', {
                     day: 'numeric',
                     month: 'long',
