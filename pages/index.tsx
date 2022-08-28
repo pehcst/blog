@@ -9,71 +9,90 @@ import {
   VStack,
   useColorModeValue,
   SimpleGrid,
+  HStack,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Header from '../components/Header'
 import ScrollContainer from 'react-indiana-drag-scroll'
-
+import {
+  RiBuilding4Fill,
+  RiExternalLinkFill,
+  RiGithubFill,
+  RiGroupFill,
+} from 'react-icons/ri'
 const Home: NextPage = () => {
   const numbers = new Array(30).fill(1).map((_, index) => index + 1)
   return (
     <>
       <Header />
+      <Box position={'absolute'} left="-5" h="100%" bg="#3A536B" w="20%" />
       <Stack
         position={'relative'}
         direction={['column', 'row']}
         h="100vh"
+        justifyContent={'center'}
+        alignItems={'center'}
         w="100%"
       >
         <Flex
-          zIndex={2}
-          justifyContent={'space-around'}
-          alignSelf={'center'}
+          h="250px"
+          alignItems={'center'}
           w="100%"
-          maxW={'1600px'}
-          p="6rem"
+          p="5"
+          maxW={'1000px'}
+          bg={useColorModeValue('none', 'whiteAlpha.400')}
+          borderRadius={10}
         >
-          <Box maxW={'600px'} mt="4rem">
-            <Heading>Olá 👋🏻 eu sou Pedro, desenvolvedor front-end</Heading>
-            <Text mt="2rem">
+          <Box mr="1rem">
+            <Image
+              borderRadius={'10'}
+              src="https://github.com/pehcst.png"
+              alt="minha foto de perfil"
+            />
+          </Box>
+          <Box>
+            <Flex
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              mb="1rem"
+            >
+              <Heading fontSize={'2rem'}>Olá 👋🏻 eu sou Pedro</Heading>
+              <Flex alignItems={'center'} color={'blue.0'}>
+                <Text mr="5px">github</Text>
+                <RiExternalLinkFill />
+              </Flex>
+            </Flex>
+
+            <Text>
               Apaixonado por desenvolver aplicações web e mobile. Gosto de criar
               protótipos de interface e desde criança me encontrei no
               desenvolvimento Front-End. Autodidata por natureza, estou em
               constante evolução, sempre aprendendo coisas novas.
             </Text>
-            <Flex mt="5rem" align={'center'}>
-              <VStack alignItems={'center'} spacing={0} color={'#5B9EFF'}>
-                <Text>Me contrate</Text>
-              </VStack>
-              <Button
-                ml="2rem"
-                bg={'#5B9EFF'}
-                color={'white'}
-                _hover={{
-                  opacity: 0.9,
-                }}
-              >
-                veja mais
-              </Button>
-            </Flex>
-          </Box>
-          <Box zIndex={2}>
-            <Image
-              borderRadius={'lg'}
-              src="https://github.com/pehcst.png"
-              alt="minha foto de perfil"
-            />
+            <HStack alignItems={'center'} mt="2rem" spacing={10}>
+              <Flex alignItems={'center'}>
+                <RiGithubFill />
+                <Text ml="5px">pehcst</Text>
+              </Flex>
+              <Flex alignItems={'center'}>
+                <RiBuilding4Fill />
+                <Text ml="5px">Unimed Volta Redonda</Text>
+              </Flex>
+              <Flex alignItems={'center'}>
+                <RiGroupFill />
+                <Text ml="5px">32 seguidores</Text>
+              </Flex>
+            </HStack>
           </Box>
         </Flex>
-        <Box position={'absolute'} bottom={20}>
+        <Box position={'absolute'} bottom={20} right={0} zIndex={-1}>
           <Image
             opacity={0.05}
             borderRadius={'lg'}
             src="/herobg.svg"
-            alt="minha foto de perfil"
+            alt="tag image"
           />
         </Box>
-        <Box position={'absolute'} right="0" h="100vh" bg="#1F324E" w="30%" />
       </Stack>
       <Box h="auto" w="100%">
         <Heading
@@ -93,7 +112,7 @@ const Home: NextPage = () => {
             position={'absolute'}
             w="100%"
             h="5px"
-            bg={'#5B9EFF'}
+            bg={'blue.0'}
           ></Box>
           <ScrollContainer horizontal className="container">
             <Flex p="3">
@@ -106,7 +125,7 @@ const Home: NextPage = () => {
                   cursor={'pointer'}
                   _hover={{
                     opacity: 1,
-                    color: useColorModeValue('#00398D', '#5B9EFF'),
+                    color: useColorModeValue('#00398D', 'blue.0'),
                   }}
                   p="5"
                   mr="10"
@@ -131,17 +150,15 @@ const Home: NextPage = () => {
         >
           {'<Blog />'}
         </Heading>
-        <Text p={[1, 10]}>Últimos posts</Text>
-        <SimpleGrid columns={[1, 2]} p={[1, 10]} spacing={10}>
+        <SimpleGrid columns={[1, 2]} p={[1, 5]} spacing={10}>
           {numbers.map((el) => (
             <Flex
               bg={useColorModeValue('white', '#181818')}
               transition={'all 0.3s'}
               cursor={'pointer'}
-              opacity={'0.7'}
+              zIndex={1}
               _hover={{
-                opacity: 1,
-                color: useColorModeValue('#00398D', '#5B9EFF'),
+                color: useColorModeValue('#00398D', 'blue.0'),
               }}
               shadow={'md'}
               borderRadius={10}

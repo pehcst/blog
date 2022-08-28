@@ -12,20 +12,18 @@ import { RiMoonClearFill, RiSunFill } from 'react-icons/ri'
 
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode()
-  const [navSize, setnavSize] = useState('10rem')
   const [navColor, setnavColor] = useState('transparent')
-  const color = useColorModeValue('#fff', '#252734')
+  const color = useColorModeValue('#fff', '#3A536B')
 
   const listenScrollEvent = () => {
     window.scrollY > 300 ? setnavColor(color) : setnavColor('transparent')
-    console.log(window.scrollY)
   }
   useEffect(() => {
     window.addEventListener('scroll', listenScrollEvent)
     return () => {
       window.removeEventListener('scroll', listenScrollEvent)
     }
-  }, [])
+  }, [colorMode])
 
   return (
     <Box

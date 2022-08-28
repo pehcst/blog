@@ -20,6 +20,9 @@ export const theme = extendTheme({
       '100': '#D1D2DC',
       '50': '#EEEEF2',
     },
+    blue: {
+      '0': '#3294F8',
+    },
     white: {
       '900': '#DFDFDF',
       '800': '#E0E0E0',
@@ -36,7 +39,7 @@ export const theme = extendTheme({
     },
     bg: {
       '0': '#252525',
-    }
+    },
   },
   fonts: {
     body: 'Source-Sans-Pro, system-ui, sans-serif',
