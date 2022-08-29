@@ -49,7 +49,7 @@ export const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bg: props.colorMode === 'dark' ? 'bg.0' : '#fff',
+        bg: props.colorMode === 'dark' ? 'gray.800' : '#fff',
         color: props.colorMode === 'dark' ? 'white.100' : 'gray.900',
       },
     }),

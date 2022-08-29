@@ -40,8 +40,6 @@ const Home: NextPage = () => {
           w="100%"
           p="5"
           maxW={'1000px'}
-          bg={useColorModeValue('none', 'whiteAlpha.400')}
-          borderRadius={10}
         >
           <Box mr="1rem">
             <Image
