@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   SimpleGrid,
   HStack,
+  Link,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Header from '../components/Header'
@@ -19,13 +20,24 @@ import {
   RiExternalLinkFill,
   RiGithubFill,
   RiGroupFill,
+  RiMapPin2Fill,
 } from 'react-icons/ri'
+import { useState, useEffect } from 'react'
+import { api } from '../services/api'
 const Home: NextPage = () => {
   const numbers = new Array(30).fill(1).map((_, index) => index + 1)
+  const [user, setUser] = useState({} as any)
+
+  useEffect(() => {
+    api.get('').then((res) => {
+      setUser(res.data)
+    })
+  }, [])
+
   return (
     <>
       <Header />
-      <Box position={'absolute'} left="-5" h="100%" bg="#3A536B" w="20%" />
+      <Box position={'absolute'} left="-5" h="100%" bg="#3A536B" w="25%" />
       <Stack
         position={'relative'}
         direction={['column', 'row']}
@@ -34,17 +46,11 @@ const Home: NextPage = () => {
         alignItems={'center'}
         w="100%"
       >
-        <Flex
-          h="250px"
-          alignItems={'center'}
-          w="100%"
-          p="5"
-          maxW={'1000px'}
-        >
+        <Flex h="250px" alignItems={'center'} w="100%" p="5" maxW={'1000px'}>
           <Box mr="1rem">
             <Image
               borderRadius={'10'}
-              src="https://github.com/pehcst.png"
+              src={user?.avatar_url}
               alt="minha foto de perfil"
             />
           </Box>
@@ -54,9 +60,17 @@ const Home: NextPage = () => {
               justifyContent={'space-between'}
               mb="1rem"
             >
-              <Heading fontSize={'2rem'}>Olá 👋🏻 eu sou Pedro</Heading>
+              <Box>
+                <Heading fontSize={'2rem'}>
+                  Olá 👋🏻 eu sou {user?.name?.split(' ')[0]}
+                </Heading>
+                <Text fontSize={'12px'} fontStyle={'italic'}>{user?.bio}</Text>
+              </Box>
+
               <Flex alignItems={'center'} color={'blue.0'}>
-                <Text mr="5px">github</Text>
+                <Link href={user?.html_url}  isExternal>
+                  github
+                </Link>
                 <RiExternalLinkFill />
               </Flex>
             </Flex>
@@ -67,18 +81,22 @@ const Home: NextPage = () => {
               desenvolvimento Front-End. Autodidata por natureza, estou em
               constante evolução, sempre aprendendo coisas novas.
             </Text>
-            <HStack alignItems={'center'} mt="2rem" spacing={10}>
+            <HStack alignItems={'center'} mt="1rem" spacing={10}>
               <Flex alignItems={'center'}>
                 <RiGithubFill />
-                <Text ml="5px">pehcst</Text>
+                <Text ml="5px">{user?.login}</Text>
               </Flex>
               <Flex alignItems={'center'}>
                 <RiBuilding4Fill />
-                <Text ml="5px">Unimed Volta Redonda</Text>
+                <Text ml="5px">{user?.company}</Text>
               </Flex>
               <Flex alignItems={'center'}>
                 <RiGroupFill />
-                <Text ml="5px">32 seguidores</Text>
+                <Text ml="5px">{user?.followers} seguidores</Text>
+              </Flex>
+              <Flex alignItems={'center'}>
+                <RiMapPin2Fill />
+                <Text ml="5px">{user?.location}</Text>
               </Flex>
             </HStack>
           </Box>

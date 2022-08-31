@@ -14,12 +14,16 @@ import {
   RiBuilding4Fill,
   RiGithubFill,
   RiGroupFill,
+  RiMapPin2Fill,
   RiMoonClearFill,
   RiSunFill,
 } from 'react-icons/ri'
+import { api } from '../../services/api'
+// import { api } from '../../services/api'
 
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode()
+  const [user, setUser] = useState({} as any)
   const [navColor, setnavColor] = useState('transparent')
   const color = useColorModeValue('#fff', 'gray.900')
 
@@ -34,6 +38,12 @@ export default function Nav() {
       }
     }
   }, [colorMode])
+
+  useEffect(() => {
+    api.get('').then((res) => {
+      setUser(res.data)
+    })
+  }, [])
 
   return (
     <Box
@@ -50,7 +60,7 @@ export default function Nav() {
           <Image src={'/logo.svg'} alt={'logo'} mr="5" />
           {typeof window !== 'undefined' && window.scrollY > 400 && (
             <Text fontSize={'1rem'} fontWeight={'bold'}>
-              Olá 👋🏻 eu sou Pedro
+              Olá 👋🏻 eu sou {user?.name?.split(' ')[0]}
             </Text>
           )}
         </Flex>
@@ -58,15 +68,19 @@ export default function Nav() {
           <HStack ml="-10" spacing={10}>
             <Flex alignItems={'center'}>
               <RiGithubFill />
-              <Text ml="5px">pehcst</Text>
+              <Text ml="5px">{user?.login}</Text>
             </Flex>
             <Flex alignItems={'center'}>
               <RiBuilding4Fill />
-              <Text ml="5px">Unimed Volta Redonda</Text>
+              <Text ml="5px">{user?.company}</Text>
             </Flex>
             <Flex alignItems={'center'}>
               <RiGroupFill />
-              <Text ml="5px">32 seguidores</Text>
+              <Text ml="5px">{user?.followers} seguidores</Text>
+            </Flex>
+            <Flex alignItems={'center'}>
+              <RiMapPin2Fill />
+              <Text ml="5px">{user?.location}</Text>
             </Flex>
           </HStack>
         )}
