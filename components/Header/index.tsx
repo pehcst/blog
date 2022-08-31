@@ -10,7 +10,13 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { RiBuilding4Fill, RiGithubFill, RiGroupFill, RiMoonClearFill, RiSunFill } from 'react-icons/ri'
+import {
+  RiBuilding4Fill,
+  RiGithubFill,
+  RiGroupFill,
+  RiMoonClearFill,
+  RiSunFill,
+} from 'react-icons/ri'
 
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -21,9 +27,11 @@ export default function Nav() {
     window.scrollY > 400 ? setnavColor(color) : setnavColor('transparent')
   }
   useEffect(() => {
-    window.addEventListener('scroll', listenScrollEvent)
-    return () => {
-      window.removeEventListener('scroll', listenScrollEvent)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', listenScrollEvent)
+      return () => {
+        window.removeEventListener('scroll', listenScrollEvent)
+      }
     }
   }, [colorMode])
 
@@ -40,13 +48,13 @@ export default function Nav() {
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <Flex alignItems={'center'}>
           <Image src={'/logo.svg'} alt={'logo'} mr="5" />
-          {window.scrollY > 400 && (
+          {typeof window !== 'undefined' && window.scrollY > 400 && (
             <Text fontSize={'1rem'} fontWeight={'bold'}>
               Olá 👋🏻 eu sou Pedro
             </Text>
           )}
         </Flex>
-        {window.scrollY > 400 && (
+        {typeof window !== 'undefined' && window.scrollY > 400 && (
           <HStack ml="-10" spacing={10}>
             <Flex alignItems={'center'}>
               <RiGithubFill />
