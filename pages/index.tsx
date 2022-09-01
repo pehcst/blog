@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   HStack,
   Link,
+  Tag,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Header from '../components/Header'
@@ -24,14 +25,29 @@ import {
 } from 'react-icons/ri'
 import { useState, useEffect } from 'react'
 import { api } from '../services/api'
+import { blog } from '../services/post'
 const Home: NextPage = () => {
   const numbers = new Array(30).fill(1).map((_, index) => index + 1)
   const [user, setUser] = useState({} as any)
+  const [post, setPost] = useState([] as any)
 
   useEffect(() => {
     api.get('').then((res) => {
       setUser(res.data)
     })
+  }, [])
+
+  useEffect(() => {
+    blog
+      .get('/search/issues', {
+        params: {
+          q: 'repo:pehcst/blog is:issue is:closed',
+        },
+      })
+      .then((res: any) => {
+        setPost(res.data.items)
+        console.log(post)
+      })
   }, [])
 
   return (
@@ -64,11 +80,13 @@ const Home: NextPage = () => {
                 <Heading fontSize={'2rem'}>
                   Olá 👋🏻 eu sou {user?.name?.split(' ')[0]}
                 </Heading>
-                <Text fontSize={'12px'} fontStyle={'italic'}>{user?.bio}</Text>
+                <Text fontSize={'12px'} fontStyle={'italic'}>
+                  {user?.bio}
+                </Text>
               </Box>
 
               <Flex alignItems={'center'} color={'blue.0'}>
-                <Link href={user?.html_url}  isExternal>
+                <Link href={user?.html_url} isExternal>
                   github
                 </Link>
                 <RiExternalLinkFill />
@@ -111,7 +129,7 @@ const Home: NextPage = () => {
         </Box>
       </Stack>
       <Box h="auto" w="100%">
-        <Heading
+        {/* <Heading
           textAlign={'right'}
           pr="10"
           mt="10"
@@ -154,64 +172,60 @@ const Home: NextPage = () => {
               ))}
             </Flex>
           </ScrollContainer>
-        </Flex>
-        <Heading
-          textAlign={'right'}
-          pr="10"
-          mt="10"
-          mb="10"
-          fontSize={'3rem'}
-          opacity={'0.2'}
-          color={useColorModeValue('#181818', '#fff')}
-        >
-          {'<Blog />'}
-        </Heading>
-        <SimpleGrid columns={[1, 2]} p={[1, 5]} spacing={10}>
-          {numbers.map((el) => (
-            <Flex
-              bg={useColorModeValue('white', '#181818')}
-              transition={'all 0.3s'}
-              cursor={'pointer'}
-              zIndex={1}
-              _hover={{
-                color: useColorModeValue('#00398D', 'blue.0'),
-              }}
-              shadow={'md'}
-              borderRadius={10}
-              key={el}
-              h={['150px', '250px']}
-            >
-              <Box w="30%">
-                <Image
-                  borderTopLeftRadius={10}
-                  borderBottomLeftRadius={10}
-                  w="100%"
-                  h="100%"
-                  src={
-                    'https://images.unsplash.com/photo-1619117084637-a83c09c6ab5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=741&q=80'
-                  }
-                  alt={'logo'}
-                />
-              </Box>
-              <Box w="70%" h="100%" p={[1, 5]}>
-                <Heading fontSize={['1.5rem', '2rem']}>{el}</Heading>
-                <Text noOfLines={[3, 5]} mt={[0, 5]}>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Vitae exercitationem doloremque eum ab nulla quod numquam
-                  facere asperiores optio necessitatibus, non minus amet quidem
-                  reprehenderit sunt eius pariatur. Amet, blanditiis!
-                </Text>
-                <Text mt={[3, 5]} textAlign={'right'}>
-                  {new Date().toLocaleDateString('pt-BR', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </Text>
-              </Box>
-            </Flex>
-          ))}
-        </SimpleGrid>
+        </Flex> */}
+        <Box h="100vh">
+          <Heading
+            textAlign={'right'}
+            pr="10"
+            mt="10"
+            mb="10"
+            fontSize={'3rem'}
+            opacity={'0.2'}
+            color={useColorModeValue('#181818', '#fff')}
+          >
+            {'<Blog />'}
+          </Heading>
+          <SimpleGrid columns={[1, 2]} p={[1, 5]} spacing={10}>
+            {post?.map((p: any) => (
+              <Flex
+                bg={useColorModeValue('white', '#181818')}
+                transition={'all 0.3s'}
+                cursor={'pointer'}
+                zIndex={1}
+                _hover={{
+                  color: useColorModeValue('#00398D', 'blue.0'),
+                }}
+                shadow={'md'}
+                borderRadius={10}
+                key={p.id}
+                h={'auto'}
+              >
+                <Box w="100%" h="100%" p={[1, 5]}>
+                  <Heading fontSize={['1.5rem', '2rem']}>{p.title}</Heading>
+                  <Text noOfLines={[3, 3]} mt={[0, 5]}>
+                    {p.body}
+                  </Text>
+                  <Flex justifyContent={'space-between'} mt={[3, 5]}>
+                    <Flex>
+                      {p.labels?.map((l: any) => (
+                        <Tag size={'sm'} h="25px" mr="1">
+                          {l.name}
+                        </Tag>
+                      ))}
+                    </Flex>
+                    <Text>
+                      {new Date(p.updated_at).toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </Text>
+                  </Flex>
+                </Box>
+              </Flex>
+            ))}
+          </SimpleGrid>
+        </Box>
       </Box>
     </>
   )
