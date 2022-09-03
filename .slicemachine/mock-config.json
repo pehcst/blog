@@ -1,0 +1,12 @@
+{
+  "_cts": {
+    "blog_post": {
+      "body": {
+        "config": {
+          "patternType": "STORY",
+          "blocks": 1
+        }
+      }
+    }
+  }
+}

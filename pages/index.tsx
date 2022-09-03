@@ -4,9 +4,7 @@ import {
   Text,
   Heading,
   Stack,
-  Button,
   Flex,
-  VStack,
   useColorModeValue,
   SimpleGrid,
   HStack,
@@ -26,28 +24,15 @@ import {
 import { useState, useEffect } from 'react'
 import { api } from '../services/api'
 import Link from 'next/link'
-const Home: NextPage = () => {
-  const numbers = new Array(30).fill(1).map((_, index) => index + 1)
+import { createClient } from '../services/prismic'
+
+const Home: NextPage = ({ post }: any) => {
   const [user, setUser] = useState({} as any)
-  const [post, setPost] = useState([] as any)
 
   useEffect(() => {
     api.get('/users/pehcst').then((res) => {
       setUser(res.data)
     })
-  }, [])
-
-  useEffect(() => {
-    api
-      .get('/search/issues', {
-        params: {
-          q: 'repo:pehcst/blog is:issue is:closed',
-        },
-      })
-      .then((res: any) => {
-        setPost(res.data.items)
-        console.log(post)
-      })
   }, [])
 
   return (
@@ -202,32 +187,26 @@ const Home: NextPage = () => {
               >
                 <Link
                   href={{
-                    pathname: `/post/[number]`,
+                    pathname: `/post/[uid]`,
                     query: {
-                      number: p.number,
+                      uid: p.uid,
                     },
                   }}
                 >
                   <Box w="100%" h="100%" p={[1, 5]}>
                     <Heading fontSize={['1.5rem', '2rem']}>{p.title}</Heading>
                     <Text noOfLines={[3, 3]} mt={[0, 5]}>
-                      {p.body}
+                      {p.content}
                     </Text>
                     <Flex justifyContent={'space-between'} mt={[3, 5]}>
                       <Flex>
-                        {p.labels?.map((l: any) => (
-                          <Tag size={'sm'} h="25px" mr="1">
-                            {l.name}
+                        {p.tags?.map((l: any) => (
+                          <Tag size={'sm'} h="25px" mr="1" colorScheme={'blue'}>
+                            {l}
                           </Tag>
                         ))}
                       </Flex>
-                      <Text>
-                        {new Date(p.updated_at).toLocaleDateString('pt-BR', {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric',
-                        })}
-                      </Text>
+                      <Text>{p.createdAt}</Text>
                     </Flex>
                   </Box>
                 </Link>
@@ -238,6 +217,33 @@ const Home: NextPage = () => {
       </Box>
     </>
   )
+}
+export const getStaticProps = async () => {
+  const client = createClient()
+  const response = await client.getAllByType('blog_post')
+  const post = response.map((po) => {
+    return {
+      uid: po.uid,
+      title: po.data.title,
+      content:
+        po.data.body.find((content: any) => content.type === 'paragraph')
+          ?.text ?? '',
+      tags: po.tags,
+      createdAt: new Date(po.first_publication_date).toLocaleDateString(
+        'pt-BR',
+        {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }
+      ),
+    }
+  })
+
+  return {
+    props: { post },
+    revalidate: 60, // refresh after 60 seconds
+  }
 }
 
 export default Home
