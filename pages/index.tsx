@@ -10,7 +10,7 @@ import {
   useColorModeValue,
   SimpleGrid,
   HStack,
-  Link,
+  Link as ChakraLink,
   Tag,
 } from '@chakra-ui/react'
 import type { NextPage } from 'next'
@@ -25,20 +25,20 @@ import {
 } from 'react-icons/ri'
 import { useState, useEffect } from 'react'
 import { api } from '../services/api'
-import { blog } from '../services/post'
+import Link from 'next/link'
 const Home: NextPage = () => {
   const numbers = new Array(30).fill(1).map((_, index) => index + 1)
   const [user, setUser] = useState({} as any)
   const [post, setPost] = useState([] as any)
 
   useEffect(() => {
-    api.get('').then((res) => {
+    api.get('/users/pehcst').then((res) => {
       setUser(res.data)
     })
   }, [])
 
   useEffect(() => {
-    blog
+    api
       .get('/search/issues', {
         params: {
           q: 'repo:pehcst/blog is:issue is:closed',
@@ -86,9 +86,9 @@ const Home: NextPage = () => {
               </Box>
 
               <Flex alignItems={'center'} color={'blue.0'}>
-                <Link href={user?.html_url} isExternal>
+                <ChakraLink href={user?.html_url} isExternal>
                   github
-                </Link>
+                </ChakraLink>
                 <RiExternalLinkFill />
               </Flex>
             </Flex>
@@ -200,28 +200,37 @@ const Home: NextPage = () => {
                 key={p.id}
                 h={'auto'}
               >
-                <Box w="100%" h="100%" p={[1, 5]}>
-                  <Heading fontSize={['1.5rem', '2rem']}>{p.title}</Heading>
-                  <Text noOfLines={[3, 3]} mt={[0, 5]}>
-                    {p.body}
-                  </Text>
-                  <Flex justifyContent={'space-between'} mt={[3, 5]}>
-                    <Flex>
-                      {p.labels?.map((l: any) => (
-                        <Tag size={'sm'} h="25px" mr="1">
-                          {l.name}
-                        </Tag>
-                      ))}
-                    </Flex>
-                    <Text>
-                      {new Date(p.updated_at).toLocaleDateString('pt-BR', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
+                <Link
+                  href={{
+                    pathname: `/post/[number]`,
+                    query: {
+                      number: p.number,
+                    },
+                  }}
+                >
+                  <Box w="100%" h="100%" p={[1, 5]}>
+                    <Heading fontSize={['1.5rem', '2rem']}>{p.title}</Heading>
+                    <Text noOfLines={[3, 3]} mt={[0, 5]}>
+                      {p.body}
                     </Text>
-                  </Flex>
-                </Box>
+                    <Flex justifyContent={'space-between'} mt={[3, 5]}>
+                      <Flex>
+                        {p.labels?.map((l: any) => (
+                          <Tag size={'sm'} h="25px" mr="1">
+                            {l.name}
+                          </Tag>
+                        ))}
+                      </Flex>
+                      <Text>
+                        {new Date(p.updated_at).toLocaleDateString('pt-BR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </Text>
+                    </Flex>
+                  </Box>
+                </Link>
               </Flex>
             ))}
           </SimpleGrid>
