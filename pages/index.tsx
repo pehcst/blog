@@ -25,9 +25,24 @@ import { useState, useEffect } from 'react'
 import { api } from '../services/api'
 import Link from 'next/link'
 import { createClient } from '../services/prismic'
+import Lottie from 'react-lottie'
+import animationData from '../lotties/dev.json'
+import bgData from '../lotties/bg.json'
+import Head from 'next/head'
 
 const Home: NextPage = ({ post }: any) => {
   const [user, setUser] = useState({} as any)
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+  }
+  const bgOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: bgData,
+  }
 
   useEffect(() => {
     api.get('/users/pehcst').then((res) => {
@@ -37,8 +52,11 @@ const Home: NextPage = ({ post }: any) => {
 
   return (
     <>
+      <Head>
+        <title>Pedro Costa</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Header />
-      <Box position={'absolute'} left="-5" h="100%" bg="#3A536B" w="25%" />
       <Stack
         position={'relative'}
         direction={['column', 'row']}
@@ -47,38 +65,24 @@ const Home: NextPage = ({ post }: any) => {
         alignItems={'center'}
         w="100%"
       >
-        <Flex h="250px" alignItems={'center'} w="100%" p="5" maxW={'1000px'}>
-          <Box mr="1rem">
-            <Image
-              borderRadius={'10'}
-              src={user?.avatar_url}
-              alt="minha foto de perfil"
-            />
-          </Box>
-          <Box>
+        <Flex h="250px" alignItems={'center'} w="100%" p="5" maxW={'800px'}>
+          <Box ml="10">
             <Flex
               alignItems={'center'}
               justifyContent={'space-between'}
-              mb="1rem"
+              mb="3rem"
             >
               <Box>
-                <Heading fontSize={'2rem'}>
+                <Heading fontSize={'4rem'}>
                   Olá 👋🏻 eu sou {user?.name?.split(' ')[0]}
                 </Heading>
                 <Text fontSize={'12px'} fontStyle={'italic'}>
                   {user?.bio}
                 </Text>
               </Box>
-
-              <Flex alignItems={'center'} color={'blue.0'}>
-                <ChakraLink href={user?.html_url} isExternal>
-                  github
-                </ChakraLink>
-                <RiExternalLinkFill />
-              </Flex>
             </Flex>
 
-            <Text>
+            <Text mb={'3rem'}>
               Apaixonado por desenvolver aplicações web e mobile. Gosto de criar
               protótipos de interface e desde criança me encontrei no
               desenvolvimento Front-End. Autodidata por natureza, estou em
@@ -87,7 +91,9 @@ const Home: NextPage = ({ post }: any) => {
             <HStack alignItems={'center'} mt="1rem" spacing={10}>
               <Flex alignItems={'center'}>
                 <RiGithubFill />
-                <Text ml="5px">{user?.login}</Text>
+                <ChakraLink ml="5px" href={user?.html_url} isExternal>
+                  github
+                </ChakraLink>
               </Flex>
               <Flex alignItems={'center'}>
                 <RiBuilding4Fill />
@@ -104,13 +110,9 @@ const Home: NextPage = ({ post }: any) => {
             </HStack>
           </Box>
         </Flex>
-        <Box position={'absolute'} bottom={20} right={0} zIndex={-1}>
-          <Image
-            opacity={0.05}
-            borderRadius={'lg'}
-            src="/herobg.svg"
-            alt="tag image"
-          />
+        <Lottie options={defaultOptions} width={500} height={500} />
+        <Box position={'absolute'} zIndex={-1} left={-10} top={0} opacity={0.1}>
+          <Lottie options={bgOptions} width={'auto'} height={'100vh'} />
         </Box>
       </Stack>
       <Box h="auto" w="100%">
