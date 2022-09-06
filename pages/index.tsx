@@ -65,15 +65,22 @@ const Home: NextPage = ({ post }: any) => {
         alignItems={'center'}
         w="100%"
       >
-        <Flex h="250px" alignItems={'center'} w="100%" p="5" maxW={'800px'}>
-          <Box ml="10">
+        <Stack
+          direction={['column', 'row']}
+          h={['auto', '250px']}
+          alignItems={'center'}
+          w="100%"
+          p="5"
+          maxW={'800px'}
+        >
+          <Box ml={[0, 10]}>
             <Flex
               alignItems={'center'}
-              justifyContent={'space-between'}
+              justifyContent={['center', 'space-between']}
               mb="3rem"
             >
               <Box>
-                <Heading fontSize={'4rem'}>
+                <Heading fontSize={['2rem', '4rem']}>
                   Olá 👋🏻 eu sou {user?.name?.split(' ')[0]}
                 </Heading>
                 <Text fontSize={'12px'} fontStyle={'italic'}>
@@ -88,7 +95,12 @@ const Home: NextPage = ({ post }: any) => {
               desenvolvimento Front-End. Autodidata por natureza, estou em
               constante evolução, sempre aprendendo coisas novas.
             </Text>
-            <HStack alignItems={'center'} mt="1rem" spacing={10}>
+            <Stack
+              direction={['column', 'row']}
+              // alignItems={'center'}
+              mt="1rem"
+              spacing={10}
+            >
               <Flex alignItems={'center'}>
                 <RiGithubFill />
                 <ChakraLink ml="5px" href={user?.html_url} isExternal>
@@ -107,12 +119,20 @@ const Home: NextPage = ({ post }: any) => {
                 <RiMapPin2Fill />
                 <Text ml="5px">{user?.location}</Text>
               </Flex>
-            </HStack>
+            </Stack>
           </Box>
-        </Flex>
-        <Lottie options={defaultOptions} width={500} height={500} />
-        <Box position={'absolute'} zIndex={-1} left={-10} top={0} opacity={0.1}>
-          <Lottie options={bgOptions} width={'auto'} height={'100vh'} />
+        </Stack>
+        <Box display={['none', 'block']}>
+          <Lottie options={defaultOptions} width={'100%'} height={'100%'} />
+          <Box
+            position={'absolute'}
+            zIndex={-1}
+            left={-10}
+            top={0}
+            opacity={0.1}
+          >
+            <Lottie options={bgOptions} width={'auto'} height={'100vh'} />
+          </Box>
         </Box>
       </Stack>
       <Box h="auto" w="100%">
@@ -172,11 +192,12 @@ const Home: NextPage = ({ post }: any) => {
           >
             {'<Blog />'}
           </Heading>
-          <SimpleGrid columns={[1, 2]} p={[1, 5]} spacing={10}>
+          <SimpleGrid columns={[1, 2]} p={[2, 5]} spacing={10}>
             {post?.map((p: any) => (
               <Flex
                 bg={useColorModeValue('white', '#181818')}
                 transition={'all 0.3s'}
+                p={[3, 0]}
                 cursor={'pointer'}
                 zIndex={1}
                 _hover={{
