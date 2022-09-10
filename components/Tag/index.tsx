@@ -10,7 +10,7 @@ export const Tag: React.FC<BlogTags> = (props) => {
     <HStack spacing={2} marginTop={2}>
       {props.tags?.map((tag) => {
         return (
-          <ChakraTag variant='solid' colorScheme='purple' key={tag}>
+          <ChakraTag variant='solid' colorScheme='blue' key={tag}>
             {tag}
           </ChakraTag>
         );
