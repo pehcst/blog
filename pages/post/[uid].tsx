@@ -17,7 +17,7 @@ function Post({ post }: any) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Box w="100%">
-        <Box maxW="1400px" margin={'0 auto'} p="5">
+        <Box maxW="1400px" margin={'0 auto'} p={[3, 5]}>
           <Button
             onClick={() => router.push('/')}
             colorScheme="gray"
@@ -25,29 +25,27 @@ function Post({ post }: any) {
           >
             Voltar
           </Button>
-          <Box mt="50px" p="5" borderRadius={'10'}>
-            <Box
-              as={'article'}
-              maxW="800px"
-              m={'5rem auto 0'}
-              className={styles.post}
-            >
-              <Heading fontSize={['2rem', '3rem']}>{post.title}</Heading>
-              <Flex justifyContent={'space-between'} alignItems="center">
-                <time>{post.createdAt}</time>
-              </Flex>
+          <Box
+            as={'article'}
+            maxW={'800px'}
+            m={'5rem auto 0'}
+            className={styles.post}
+          >
+            <Heading fontSize={['2rem', '3rem']}>{post.title}</Heading>
+            <Flex justifyContent={'space-between'} alignItems="center">
+              <time>{post.createdAt}</time>
+            </Flex>
 
-              <Tag
-                tags={post.tags?.map((pos: any) => {
-                  return pos
-                })}
-              />
+            <Tag
+              tags={post.tags?.map((pos: any) => {
+                return pos
+              })}
+            />
 
-              <div
-                className={styles.postContent}
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
-            </Box>
+            <div
+              className={styles.postContent}
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </Box>
         </Box>
       </Box>

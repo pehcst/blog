@@ -1,6 +1,5 @@
 .post h1 {
-  font-size: 3rem;
-  font-weight: 900;
+  font-size: 2rem;
   margin-top: 3rem;
   margin-bottom: 2rem;
 }
@@ -24,6 +23,15 @@
 .post p {
   margin-bottom: 1rem;
   padding: 0.1rem;
+}
+.post pre {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  background-color: rgb(40, 44, 52);
+  color: rgb(255, 255, 255);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
 }
 
 .post p ul {
