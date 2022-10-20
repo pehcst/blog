@@ -12,6 +12,7 @@
 
 .postContent {
   margin-top: 2rem;
+  text-align: justify;
   line-height: 2rem;
   font-size: 1.125rem;
   color: gray.800;
